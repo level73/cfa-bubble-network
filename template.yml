@@ -1,0 +1,93 @@
+id: 'cfa-bubble-networks'
+name: Code for Africa - Bubble Networks
+description: A Flourish template
+author: Code For Africa
+sdk_version: 3
+build:
+  src:
+    script: npm run build
+    directory: src
+    files:
+      - rollup.config.js
+  less:
+    script: npm run less
+    directory: less
+settings:
+  - Labels
+  - property: key_labels.label_1
+    name: Key Label (1)
+    description: label for the first key
+    type: string
+  - property: key_labels.label_2
+    name: Key Label (2)
+    description: label for the second key
+    type: string
+  - property: instruction
+    name: Instruction
+    description: Choose the main call to action
+    type: string
+  - property: main_bubble_text.one
+    name: Main Bubbble Descriptor (singular)
+    description: What are these bubbles representing?
+    type: string
+  - property: main_bubble_text.many
+    name: Main Bubbble Descriptor (plural)
+    description: What are these bubbles representing?
+    type: string
+  - property: text_after_total.tat_1
+    name: Detail description (towards)
+    description: Description label of the detail node (towards)
+    type: string
+  - property: text_after_total.tat_2
+    name: Detail description (from)
+    description: Description label of the detail node (from).
+    type: string
+  - property: source.label
+    name: Source
+    description: The source of the data (if any)
+    type: string
+  - property: source.url
+    name: Source url
+    description: Url of the source data (with http)
+    type: string
+
+  - Colors
+  - property: color_background
+    name: Background
+    description: Main background color setting (hex)
+    type: string
+
+  - property: key_colors.color_1
+    name: First Key Color
+    description: First Key Color (legend and bubbles) (hex)
+    type: string
+  - property: key_colors.color_2
+    name: Second Key Color
+    description: Second Key Color (legend and bubbles) (hex)
+    type: string
+
+  - property: key_colors_selected.color_1
+    name: First Key Color Hover
+    description: First Key Color on hover (legend and bubbles) (hex)
+    type: string
+  - property: key_colors_selected.color_2
+    name: Second Key Color Hover
+    description: Second Key Color on hover (legend and bubbles) (hex)
+    type: string
+
+data:
+    - dataset: bubbles
+      key: from
+      name: from
+      type: column
+      column: Bubbles::A
+    - dataset: bubbles
+      key: to
+      name: to
+      type: column
+      column: Bubbles::B
+    - dataset: bubbles
+      key: total
+      name: total
+      type: column
+      column: Bubbles::C

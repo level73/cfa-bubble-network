@@ -1,0 +1,24 @@
+{
+  "name": "cfa_bubble_networks",
+  "version": "1.0.0",
+  "description": "A template for use on flourish.studio",
+  "main": "template.js",
+  "author": "Code for Africa",
+  "license": "ISC",
+  "keywords": [
+    "flourish"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "less": "lessc --plugin=less-plugin-clean-css --source-map less/style.less static/style.css"
+  },
+  "dependencies": {
+    "d3": "^5.7.0",
+    "jquery": "^3.3.1",
+    "less": "^3.0.1",
+    "less-plugin-clean-css": "^1.5.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-uglify": "^3.0.0"
+  }
+}
