@@ -75,6 +75,10 @@ settings:
     description: Second Key Color on hover (legend and bubbles) (hex)
     type: string
 
+  - Layout
+  - property: layout
+    import: "@flourish/layout"
+
 data:
     - dataset: bubbles
       key: from

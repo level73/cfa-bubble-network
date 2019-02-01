@@ -1,3 +1,5 @@
+import initLayout                       from "@flourish/layout";
+
 import NetworkCanvas                    from './modules/network-canvas'
 import NetworkSvg                       from './modules/network-svg'
 import Network                          from './modules/network'
@@ -5,6 +7,7 @@ import {sortData}                       from './utils/helpers'
 
 export var data = {};
 var bubbles;
+var $network_container;
 
 
 // If your template includes data tables, use this variable to access the data.
@@ -26,8 +29,11 @@ export var state = {
   key_colors_selected: { color_1: '#0c2e6d', color_2: '#901772' },
 
   color_background: "#FFFFFF",
+  layout: {}
 };
 
+var layout = initLayout(state.layout);
+layout.appendTo(document.body);
 
 function setDetailText(){
   if($('.network__entry.active').length > 0){
@@ -69,7 +75,7 @@ function setSource(){
 }
 
 export function update() {
-
+  layout.update();
   // The update function is called whenever the user changes a data table or settings
   // in the visualisation editor, or when changing slides in the story editor.
 
@@ -100,13 +106,35 @@ export function update() {
   $('.network__receiving:hover').css('background', state.key_colors_selected.color_2)
 
   setDetailText()
-  setSource()
+  setSource();
+
+  console.log($network_container.height())
+  layout.setHeight($network_container.height())
 }
 
 export function draw() {
-  // The draw function is called when the template first loads
-  var $network = $('#network');
-  //const $network = jq('#network')
+  $network_container = $('<div class="network-container">')
+  var $network = $('<div class="network" id="network">');
+  $network.attr('data-key-titles', '["Sending","Receiving"]')
+  $network.attr('data-text-before-total', '["Sends","Receives"]')
+  $network.attr('data-text-after-total', '["transactions to", "transactions from"]')
+  $network.attr('data-text-after-total-singular', '["transaction to", "transaction from"]')
+  $network.attr('data-node-type-text', 'countries')
+  $network.attr('data-node-type-text-singular', 'country')
+  $network.attr('data-svg', 'false')
+  $network.attr('data-key-colors', '["#2353aa","#ae7ea2"]')
+  $network.attr('data-key-colors-selected', '["#0c2e6d","#901772"]')
+  $network.attr('data-color-lines', "#d8d8d8")
+  $network.attr('data-color-lines-hover', "#a5a5a5")
+  $network.attr('data-color-background', "#EAEAEA")
+  $network.attr('data-instructions', "Click on a country to see migration flow")
+
+  var $network_source = $('<div class="network__source"></div>');
+
+  $network_container.append($network);
+  $network_container.append($network_source);
+
+  $(layout.getSection('primary')).append($network_container);
 
   const sortedData = sortData(data.bubbles)
 
@@ -119,5 +147,5 @@ export function draw() {
           networkCanvas.init()
       }
   }
-
+  update();
 }
