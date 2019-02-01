@@ -77,12 +77,8 @@ class Network {
 
         this.useSvg = this.$network.data('svg') ? this.$network.data('svg') : false
 
-        this.colorLines = this.$network.data('colorLines') || '#d8d8d8'
-        this.colorLinesHover = this.$network.data('colorLinesHover') || '#a5a5a5'
-
-        this.background = state.color_background || '#EAEAEA'
-        this.$network.css('background', this.background)
-        this.$active.css('background', this.background)
+        this.colorLines = state.line_color
+        this.colorLinesHover = state.line_color_selected
 
         this.$active.append('<div class="network__active__wrapper"></div>')
         this.$activeName = $('<span class="network__active__name"></span>').appendTo('.network__active__wrapper')

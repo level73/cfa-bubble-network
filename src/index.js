@@ -27,12 +27,13 @@ export var state = {
 
   key_colors:          { color_1: '#2353aa', color_2: '#ae7ea2' },
   key_colors_selected: { color_1: '#0c2e6d', color_2: '#901772' },
+  line_color:          "#cccccc",
+  line_color_selected: "#888888",
 
-  color_background: "#FFFFFF",
   layout: {}
 };
 
-var layout = initLayout(state.layout);
+export var layout = initLayout(state.layout);
 layout.appendTo(document.body);
 
 function setDetailText(){
@@ -75,6 +76,10 @@ function setSource(){
 }
 
 export function update() {
+  if (!data.bubbles.processed) { // If data has changed, draw the canvas again
+    draw();
+    return;
+  }
   layout.update();
   // The update function is called whenever the user changes a data table or settings
   // in the visualisation editor, or when changing slides in the story editor.
@@ -108,12 +113,12 @@ export function update() {
   setDetailText()
   setSource();
 
-  console.log($network_container.height())
   layout.setHeight($network_container.height())
 }
 
 export function draw() {
-  $network_container = $('<div class="network-container">')
+  // to do: only append if there's new data
+  $network_container = $('<div class="network-container">') 
   var $network = $('<div class="network" id="network">');
   $network.attr('data-key-titles', '["Sending","Receiving"]')
   $network.attr('data-text-before-total', '["Sends","Receives"]')
@@ -124,8 +129,8 @@ export function draw() {
   $network.attr('data-svg', 'false')
   $network.attr('data-key-colors', '["#2353aa","#ae7ea2"]')
   $network.attr('data-key-colors-selected', '["#0c2e6d","#901772"]')
-  $network.attr('data-color-lines', "#d8d8d8")
-  $network.attr('data-color-lines-hover', "#a5a5a5")
+  $network.attr('data-color-lines', "#00ffff")
+  $network.attr('data-color-lines-hover', "#ff0000")
   $network.attr('data-color-background', "#EAEAEA")
   $network.attr('data-instructions', "Click on a country to see migration flow")
 
@@ -137,15 +142,19 @@ export function draw() {
   $(layout.getSection('primary')).append($network_container);
 
   const sortedData = sortData(data.bubbles)
+  data.bubbles.processed = true;
 
   if ($network.length > 0) {
-      if ($network.data('svg') === true) {
-          const networkSvg = new NetworkSvg(sortedData)
-          networkSvg.init()
-      } else {
-          const networkCanvas = new NetworkCanvas(sortedData)
-          networkCanvas.init()
-      }
+    if ($network.data('svg') === true) {
+      const networkSvg = new NetworkSvg(sortedData)
+      networkSvg.init()
+    } else {
+      const networkCanvas = new NetworkCanvas(sortedData)
+      networkCanvas.init()
+    }
   }
+
+
+  window.addEventListener("resize", update)
   update();
 }
