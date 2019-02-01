@@ -55,25 +55,25 @@ settings:
   - property: color_background
     name: Background
     description: Main background color setting (hex)
-    type: string
+    type: color
 
   - property: key_colors.color_1
     name: First Key Color
     description: First Key Color (legend and bubbles) (hex)
-    type: string
+    type: color
   - property: key_colors.color_2
     name: Second Key Color
     description: Second Key Color (legend and bubbles) (hex)
-    type: string
+    type: color
 
   - property: key_colors_selected.color_1
     name: First Key Color Hover
     description: First Key Color on hover (legend and bubbles) (hex)
-    type: string
+    type: color
   - property: key_colors_selected.color_2
     name: Second Key Color Hover
     description: Second Key Color on hover (legend and bubbles) (hex)
-    type: string
+    type: color
 
   - Layout
   - property: layout
