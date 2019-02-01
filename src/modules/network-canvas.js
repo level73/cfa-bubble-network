@@ -2,7 +2,7 @@ import * as d3                          from 'd3'
 import Network                          from './network'
 import { hexToRGB }                     from '../utils/helpers'
 import throttle                         from '../utils/throttle'
-import { state }                        from '../index.js'
+import { state, layout }                from '../index.js'
 
 class NetworkCanvas extends Network {
     constructor(data) {
@@ -34,19 +34,19 @@ class NetworkCanvas extends Network {
     resize() {
         super.resize()
 
-        this.canvas.attr('width', this.width * 2)
+        this.canvas.attr('width', layout.getPrimaryWidth() * 2)
             .attr('height', this.height * 2)
 
         this.refreshCanvas()
     }
 
     setupCanvas() {
-        this.width = this.$container.outerWidth()
+        this.width = layout.getPrimaryWidth()
         this.height = this.$container.outerHeight()
         this.canvas = d3.select('.network__canvas-container')
             .append('canvas')
             .classed('network__canvas', true)
-            .attr('width', this.width * 2)
+            .attr('width', layout.getPrimaryWidth() * 2)
             .attr('height', this.height * 2)
         this.customBase = document.createElement('custom')
         this.custom = d3.select(this.customBase)

@@ -1,5 +1,5 @@
 import { numberWithCommas }             from '../utils/helpers'
-import { state }                        from '../index.js'
+import { state, layout }                        from '../index.js'
 
 class Network {
     constructor() {
@@ -24,7 +24,7 @@ class Network {
         this.linesArray = []
         this.colorLines = null
         this.colorLinesHover = null
-        this.width = this.$container.outerWidth()
+        this.width = layout.getPrimaryWidth()
         this.height = this.$container.outerHeight()
         this.mode = 0
         this.$window = $(window)
@@ -44,7 +44,6 @@ class Network {
 
     setupKey() {
         this.colors = Object.values(state.key_colors)
-        console.log(this.colors)
         this.$keyItems.on('mouseenter', (e) => {
             const $item = $(e.currentTarget)
             if (!$item.hasClass('active')) {
@@ -295,7 +294,7 @@ class Network {
         this.entryWidth = this.$entries.first().outerWidth()
         this.entryHeight = this.$entries.first().outerHeight()
 
-        this.width = this.$container.outerWidth()
+        this.width = layout.getPrimaryWidth()
         this.height = this.$container.outerHeight()
 
         const $activeCountry = $('.network__entry.active')
