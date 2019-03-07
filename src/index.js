@@ -91,11 +91,15 @@ export function update() {
   $('.network__key-text:eq(1)').text(state.key_labels.label_2)
 
   $('.network__key-item:eq(0)').css( {'border-color': state.key_colors.color_1, 'color': state.key_colors.color_1 })
-  $('.network__key-item:eq(0) > .network__key-circle').css('background', state.key_colors.color_1)
+  $('.network__key-item:eq(0) > .network__key-circle').css('background',function() {
+    return this.parentElement.className.indexOf("active") ? null : state.key_colors.color_1
+  })
   $('.network__key-item:eq(0).active').css( {'background': state.key_colors.color_1, 'color': '#FFFFFF' })
 
   $('.network__key-item:eq(1)').css( {'border-color': state.key_colors.color_2, 'color': state.key_colors.color_2 })
-  $('.network__key-item:eq(1) > .network__key-circle').css('background', state.key_colors.color_2)
+  $('.network__key-item:eq(1) > .network__key-circle').css('background', function() {
+    return this.parentElement.className.indexOf("active") ? null : state.key_colors.color_2
+  })
   $('.network__key-item:eq(1).active').css( {'background': state.key_colors.color_2, 'color': '#FFFFFF' })
 
   $('.network__legend-circle:eq(0)').css('background', state.key_colors.color_1)
