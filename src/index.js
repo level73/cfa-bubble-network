@@ -9,10 +9,6 @@ export var data = {};
 var bubbles;
 var $network_container;
 
-
-// If your template includes data tables, use this variable to access the data.
-// Each of the 'datasets' in data.json file will be available as properties of the data.
-
 export var state = {
   // The current state of template. You can make some or all of the properties
   // of the state object available to the user as settings in settings.js.
@@ -76,16 +72,18 @@ function setSource(){
 }
 
 export function update() {
-  if (!data.bubbles.processed) { // If data has changed, draw the canvas again
-    draw();
-    return;
-  }
-  layout.update();
   // The update function is called whenever the user changes a data table or settings
   // in the visualisation editor, or when changing slides in the story editor.
 
   // Tip: to make your template work nicely in the story editor, ensure that all user
   // interface controls such as buttons and sliders update the state and then call update.
+
+  if (!data.bubbles.processed) { // If data has changed, draw the canvas again
+    draw();
+    return;
+  }
+  layout.update();
+  
   $('#network').css('background', state.color_background)
   $('.network__key-text:eq(0)').text(state.key_labels.label_1)
   $('.network__key-text:eq(1)').text(state.key_labels.label_2)
@@ -110,7 +108,6 @@ export function update() {
   $('.network__sending').css('background', state.key_colors.color_1)
   $('.network__receiving').css('background', state.key_colors.color_2)
 
-  // Network.colors = [state.key_colors.color_1, state.key_colors.color_2]
   $('.network__sending:hover').css('background', state.key_colors_selected.color_1)
   $('.network__receiving:hover').css('background', state.key_colors_selected.color_2)
 
@@ -121,7 +118,6 @@ export function update() {
 }
 
 export function draw() {
-  // to do: only append if there's new data
   $network_container = $('<div class="network-container">') 
   var $network = $('<div class="network" id="network">');
   $network.attr('data-key-titles', '["Sending","Receiving"]')
