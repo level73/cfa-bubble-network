@@ -141,7 +141,11 @@ export function draw() {
 
   $(layout.getSection('primary')).append($network_container);
 
-  const sortedData = sortData(data.bubbles)
+  const sortedData = sortData(data.bubbles);
+  
+  // We add this to know that the data was processed. If a user makes a
+  // change to the data in the interface, data.bubbles.processed will
+  // return undefined
   data.bubbles.processed = true;
 
   if ($network.length > 0) {
