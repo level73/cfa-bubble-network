@@ -2,7 +2,7 @@ import * as d3                          from 'd3'
 import Network                          from './network'
 import { hexToRGB }                     from '../utils/helpers'
 import throttle                         from '../utils/throttle'
-import { state }                        from '../index.js'
+import { state, layout }                from '../index.js'
 
 class NetworkCanvas extends Network {
     constructor(data) {
@@ -34,25 +34,26 @@ class NetworkCanvas extends Network {
     resize() {
         super.resize()
 
-        this.canvas.attr('width', this.width * 2)
+        this.canvas.attr('width', layout.getPrimaryWidth() * 2)
             .attr('height', this.height * 2)
 
         this.refreshCanvas()
     }
 
     setupCanvas() {
-        this.width = this.$container.outerWidth()
+        this.width = layout.getPrimaryWidth()
         this.height = this.$container.outerHeight()
         this.canvas = d3.select('.network__canvas-container')
             .append('canvas')
             .classed('network__canvas', true)
-            .attr('width', this.width * 2)
+            .attr('width', layout.getPrimaryWidth() * 2)
             .attr('height', this.height * 2)
         this.customBase = document.createElement('custom')
         this.custom = d3.select(this.customBase)
     }
 
     databind() {
+        let column_count = 100 / Math.round((this.entryWidth / this.width) * 100)
         let join = this.custom.selectAll('custom.line')
             .data(this.linesArray)
 
@@ -61,58 +62,31 @@ class NetworkCanvas extends Network {
         let enterSel = join.enter()
             .append('custom')
             .attr('class', 'line')
-            .attr('id', (d) => d.from)
-            .attr('x1', (d) => {
-                let $entry = $('#entry-' + d.from)
-              //  console.log($entry)
-                return 2 * Math.floor($entry.offset().left + this.entryWidth / 2 - canvasLeft) + 0.5
-            })
-            .attr('y1', (d) => {
-                let $entry = $(`#entry-${d.from}`)
-                return 2 * Math.floor($entry.offset().top - this.$container.offset().top + 11 + this.entryHeight / 2) + 0.5
-            })
-            .attr('x2', (d) => {
-                return 2 * Math.floor($(`#entry-${d.to}`).offset().left + this.entryWidth / 2 - canvasLeft) + 0.5
-            })
-            .attr('y2', (d) => {
-                return 2 * Math.floor($(`#entry-${d.to}`).offset().top - this.$container.offset().top + 11 + this.entryHeight / 2) + 0.5
-            })
-            .attr('stroke-width', 1)
-            .attr('stroke', (d) => {
-                let color = this.colorLines
-                if (d.status === 'active') {
-                    color = this.colorLinesHover
-                }
-
-                let opacity = 1
-                if (d.status === 'hidden') {
-                    opacity = 0
-                }
-
-                return hexToRGB(color, opacity)
-            })
+            .attr('id', (d) => d.from);
 
         join.merge(enterSel)
-            .transition()
-            .attr('x1', (d) => {
-                let $entry = $(`#entry-${d.from}`)
-                return 2 * Math.floor($entry.offset().left + this.entryWidth / 2 - canvasLeft) + 0.5
+            .attr('x1', (d, i) => {
+                let left_offset = (d.from % column_count) * this.entryWidth;
+                return 2 * Math.floor(left_offset + this.entryWidth / 2) + 0.5
             })
             .attr('y1', (d) => {
-                let $entry = $(`#entry-${d.from}`)
-                return 2 * Math.floor($entry.offset().top - this.$container.offset().top + 11 + this.entryHeight / 2) + 0.5
+                let top_offset = Math.floor(d.from / column_count) * this.entryHeight;
+                return 2 * Math.floor(top_offset + 11 + this.entryHeight / 2) + 0.5
             })
             .attr('x2', (d) => {
-                return 2 * Math.floor($(`#entry-${d.to}`).offset().left + this.entryWidth / 2 - canvasLeft) + 0.5
+                let left_offset = (d.to % column_count) * this.entryWidth;
+                return 2 * Math.floor(left_offset + this.entryWidth / 2) + 0.5
             })
             .attr('y2', (d) => {
-                return 2 * Math.floor($(`#entry-${d.to}`).offset().top - this.$container.offset().top + 11 + this.entryHeight / 2) + 0.5
+                let top_offset = Math.floor(d.to / column_count) * this.entryHeight;
+                return 2 * Math.floor(top_offset + 11 + this.entryHeight / 2) + 0.5
             })
             .attr('stroke-width', 1)
             .attr('stroke', (d) => {
                 let color = this.colorLines
                 if (d.status === 'active') {
                     color = this.colorLinesHover
+                    
                 }
 
                 let opacity = 1
@@ -178,11 +152,11 @@ class NetworkCanvas extends Network {
                 }
             }
         }
+
         this.refreshCanvas()
     }
 
     mouseLeave() {
-
         let colors = Object.values(state.key_colors)
         this.$circles.css('background', colors[this.mode])
         for(let i = 0; i < this.linesArray.length; i++) {
@@ -190,6 +164,7 @@ class NetworkCanvas extends Network {
                 this.linesArray[i].status = 'neutral'
             }
         }
+
         this.refreshCanvas()
     }
 

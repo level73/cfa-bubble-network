@@ -1,5 +1,5 @@
 import { numberWithCommas }             from '../utils/helpers'
-import { state }                        from '../index.js'
+import { state, layout }                        from '../index.js'
 
 class Network {
     constructor() {
@@ -24,7 +24,7 @@ class Network {
         this.linesArray = []
         this.colorLines = null
         this.colorLinesHover = null
-        this.width = this.$container.outerWidth()
+        this.width = layout.getPrimaryWidth()
         this.height = this.$container.outerHeight()
         this.mode = 0
         this.$window = $(window)
@@ -44,7 +44,6 @@ class Network {
 
     setupKey() {
         this.colors = Object.values(state.key_colors)
-        console.log(this.colors)
         this.$keyItems.on('mouseenter', (e) => {
             const $item = $(e.currentTarget)
             if (!$item.hasClass('active')) {
@@ -78,12 +77,8 @@ class Network {
 
         this.useSvg = this.$network.data('svg') ? this.$network.data('svg') : false
 
-        this.colorLines = this.$network.data('colorLines') || '#d8d8d8'
-        this.colorLinesHover = this.$network.data('colorLinesHover') || '#a5a5a5'
-
-        this.background = state.color_background || '#EAEAEA'
-        this.$network.css('background', this.background)
-        this.$active.css('background', this.background)
+        this.colorLines = state.line_color
+        this.colorLinesHover = state.line_color_selected
 
         this.$active.append('<div class="network__active__wrapper"></div>')
         this.$activeName = $('<span class="network__active__name"></span>').appendTo('.network__active__wrapper')
@@ -247,8 +242,8 @@ class Network {
         })
 
         // Set the currently selected country in the state object
-        state.current_country = $('.network__entry.active').attr('id');
-        console.log(state.current_country);
+        state.current_bubble = $('.network__entry.active').attr('id');
+        
     }
 
     deselect() {
@@ -299,7 +294,7 @@ class Network {
         this.entryWidth = this.$entries.first().outerWidth()
         this.entryHeight = this.$entries.first().outerHeight()
 
-        this.width = this.$container.outerWidth()
+        this.width = layout.getPrimaryWidth()
         this.height = this.$container.outerHeight()
 
         const $activeCountry = $('.network__entry.active')
