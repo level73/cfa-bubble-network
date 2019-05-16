@@ -30,7 +30,6 @@ export var state = {
 };
 
 export var layout = initLayout(state.layout);
-layout.appendTo(document.body);
 
 function setDetailText(){
   if($('.network__entry.active').length > 0){
