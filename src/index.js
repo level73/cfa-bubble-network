@@ -26,6 +26,8 @@ export var state = {
   key_colors_selected: { color_1: '#0c2e6d', color_2: '#901772' },
 
   color_background: "#FFFFFF",
+
+  current_country: null
 };
 
 
@@ -98,7 +100,7 @@ export function update() {
   // Network.colors = [state.key_colors.color_1, state.key_colors.color_2]
   $('.network__sending:hover').css('background', state.key_colors_selected.color_1)
   $('.network__receiving:hover').css('background', state.key_colors_selected.color_2)
-
+  $('.network__entry' + '#' + state.current_country ).addClass('active');
   setDetailText()
   setSource()
 }

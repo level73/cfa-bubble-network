@@ -245,6 +245,10 @@ class Network {
                 'background': this.colors[1 - this.mode]
             })
         })
+
+        // Set the currently selected country in the state object
+        state.current_country = $('.network__entry.active').attr('id');
+        console.log(state.current_country);
     }
 
     deselect() {
