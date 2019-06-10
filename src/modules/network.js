@@ -223,6 +223,7 @@ class Network {
         }
         this.$active.addClass('active')
         this.$instructions.addClass('hide')
+        this.$key.addClass('hide')
         this.$entries.not(`#entry-${id}`).addClass('hide')
             .find('.network__sending, .network__receiving').css({
                 'width': 0,
@@ -253,6 +254,7 @@ class Network {
         this.$active.removeClass('active')
         this.$entries.removeClass('hide linked active')
         this.$instructions.removeClass('hide')
+        this.$key.removeClass('hide')
 
         this.$circles.each((index, element) => {
             const $circle = $(element)
