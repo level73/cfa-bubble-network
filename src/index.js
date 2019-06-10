@@ -42,13 +42,13 @@ function setDetailText(){
 
     if( state.mode === 0){
       let activeTotalText = `${$activeCountry.data('totalSent')} `
-      activeTotalText +=  $activeCountry.data('totalSent') > 1 ? state.text_after_total.tat_1 : text_after_total_singular.tats_1;
+      activeTotalText +=  $activeCountry.data('totalSent') > 1 ? state.text_after_total.tat_1 : state.text_after_total_singular.tats_1;
       activeTotalText += linkedIds.length > 1 ? ` ${linkedIds.length} ${state.main_bubble_text.many}` : ` ${linkedIds.length} ${state.main_bubble_text.one}`
       $('.network__active__total').text(activeTotalText)
 
     } else {
       let activeTotalText = `${$activeCountry.data('totalReceived')} `
-      activeTotalText +=  $activeCountry.data('totalReceived') > 1 ? state.text_after_total.tat_2 : text_after_total_singular.tats_2;
+      activeTotalText +=  $activeCountry.data('totalReceived') > 1 ? state.text_after_total.tat_2 : state.text_after_total_singular.tats_2;
       activeTotalText += linkedIds.length > 1 ? ` ${linkedIds.length} ${state.main_bubble_text.many}` : ` ${linkedIds.length} ${state.main_bubble_text.one}`
       $('.network__active__total').text(activeTotalText)
     }
