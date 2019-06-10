@@ -88,7 +88,6 @@ class Network {
 
         for (let i = 0; i < keys; i++) {
             this.colors = Object.values(state.key_colors)
-            console.log(this.colors)
             let active = ''
             let style = `border-color: ${this.colors[i]};`
             let circleStyle = `background: ${this.colors[i]};`

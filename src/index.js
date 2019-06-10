@@ -40,9 +40,6 @@ function setDetailText(){
     const linkedIds = $activeCountry.data(modeString).toString().split(',')
     const linkedValues = $activeCountry.data(`${modeString}Values`).toString().split(',')
 
-    console.log(state.mode)
-    console.log(modeString)
-
     if( state.mode === 0){
       let activeTotalText = `${$activeCountry.data('totalSent')} `
       activeTotalText +=  $activeCountry.data('totalSent') > 1 ? state.text_after_total.tat_1 : text_after_total_singular.tats_1;
@@ -73,16 +70,11 @@ function setSource(){
 }
 
 export function update() {
-  // The update function is called whenever the user changes a data table or settings
-  // in the visualisation editor, or when changing slides in the story editor.
-
-  // Tip: to make your template work nicely in the story editor, ensure that all user
-  // interface controls such as buttons and sliders update the state and then call update.
-
   if (!data.bubbles.processed) { // If data has changed, draw the canvas again
     draw();
     return;
   }
+  
   layout.update();
 
   $('#network').css('background', state.color_background)
