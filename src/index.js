@@ -1,13 +1,13 @@
 import initLayout                       from "@flourish/layout";
 
 import NetworkCanvas                    from './modules/network-canvas'
-import NetworkSvg                       from './modules/network-svg'
 import Network                          from './modules/network'
 import {sortData}                       from './utils/helpers'
 
 export var data = {};
 var bubbles;
 var $network_container;
+var networkCanvas;
 
 export var state = {
   // The current state of template. You can make some or all of the properties
@@ -148,15 +148,9 @@ export function draw() {
   data.bubbles.processed = true;
 
   if ($network.length > 0) {
-    if ($network.data('svg') === true) {
-      const networkSvg = new NetworkSvg(sortedData)
-      networkSvg.init()
-    } else {
-      const networkCanvas = new NetworkCanvas(sortedData)
+      networkCanvas = new NetworkCanvas(sortedData)
       networkCanvas.init()
-    }
   }
-
 
   window.addEventListener("resize", update)
   update();
