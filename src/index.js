@@ -25,8 +25,10 @@ export var state = {
   key_colors_selected: { color_1: '#0c2e6d', color_2: '#901772' },
   line_color:          "#cccccc",
   line_color_selected: "#888888",
-  current_bubble: null,
-  layout: {}
+  layout: {},
+
+  selected_entry: null,
+  selected_id: null
 };
 
 export var layout = initLayout(state.layout);
@@ -109,9 +111,12 @@ export function update() {
 
   $('.network__sending:hover').css('background', state.key_colors_selected.color_1)
   $('.network__receiving:hover').css('background', state.key_colors_selected.color_2)
-  $('.network__entry' + '#' + state.current_bubble).addClass('active');
+
   setDetailText()
   setSource();
+
+  if (state.selected_id != null) networkCanvas.select();
+  else networkCanvas.deselect();
 
   layout.setHeight($network_container.height())
 }
