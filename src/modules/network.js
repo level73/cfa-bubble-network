@@ -240,6 +240,10 @@ class Network {
                 'background': this.colors[1 - this.mode]
             })
         })
+
+        // Set the currently selected country in the state object
+        state.current_bubble = $('.network__entry.active').attr('id');
+        
     }
 
     deselect() {

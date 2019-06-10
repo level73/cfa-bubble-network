@@ -25,12 +25,11 @@ export var state = {
   key_colors_selected: { color_1: '#0c2e6d', color_2: '#901772' },
   line_color:          "#cccccc",
   line_color_selected: "#888888",
-
+  current_bubble: null,
   layout: {}
 };
 
 export var layout = initLayout(state.layout);
-layout.appendTo(document.body);
 
 function setDetailText(){
   if($('.network__entry.active').length > 0){
@@ -83,7 +82,7 @@ export function update() {
     return;
   }
   layout.update();
-  
+
   $('#network').css('background', state.color_background)
   $('.network__key-text:eq(0)').text(state.key_labels.label_1)
   $('.network__key-text:eq(1)').text(state.key_labels.label_2)
@@ -110,7 +109,7 @@ export function update() {
 
   $('.network__sending:hover').css('background', state.key_colors_selected.color_1)
   $('.network__receiving:hover').css('background', state.key_colors_selected.color_2)
-
+  $('.network__entry' + '#' + state.current_bubble).addClass('active');
   setDetailText()
   setSource();
 
@@ -118,7 +117,7 @@ export function update() {
 }
 
 export function draw() {
-  $network_container = $('<div class="network-container">') 
+  $network_container = $('<div class="network-container">')
   var $network = $('<div class="network" id="network">');
   $network.attr('data-key-titles', '["Sending","Receiving"]')
   $network.attr('data-text-before-total', '["Sends","Receives"]')
@@ -142,7 +141,7 @@ export function draw() {
   $(layout.getSection('primary')).append($network_container);
 
   const sortedData = sortData(data.bubbles);
-  
+
   // We add this to know that the data was processed. If a user makes a
   // change to the data in the interface, data.bubbles.processed will
   // return undefined
